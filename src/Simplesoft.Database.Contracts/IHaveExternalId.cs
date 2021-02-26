@@ -14,6 +14,7 @@ namespace SimpleSoft.Database
         /// </summary>
         TId ExternalId { get; set; }
     }
+
     /// <summary>
     /// Represents an entity with an unique identifier to be used
     /// across multiple systems, with a <see cref="Guid"/> for the
