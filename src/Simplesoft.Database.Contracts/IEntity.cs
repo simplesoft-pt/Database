@@ -7,7 +7,7 @@ namespace SimpleSoft.Database
     /// <see cref="Id"/> representing its unique identifier
     /// </summary>
     /// <typeparam name="TId"></typeparam>
-    public interface IEntity<TId> where TId : IEquatable<TId>
+    public interface IEntity<TId> : IEntity where TId : IEquatable<TId>
     {
         /// <summary>
         /// Unique identifier
@@ -16,10 +16,9 @@ namespace SimpleSoft.Database
     }
 
     /// <summary>
-    /// Represents a database entity with a long
-    /// representing the unique identifier
+    /// Represents a database entity.
     /// </summary>
-    public interface IEntity : IEntity<long>
+    public interface IEntity
     {
 
     }
