@@ -20,8 +20,8 @@ namespace SimpleSoft.Database
     }
 
     /// <summary>
-    /// Represents an entity with created metadata properties with
-    /// a string for the created by property
+    /// Represents an entity with updated metadata properties with a string
+    /// for the <see cref="IHaveCreatedMeta{TBy}.CreatedBy"/> property.
     /// </summary>
     public interface IHaveCreatedMeta : IHaveCreatedMeta<string>
     {
