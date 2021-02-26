@@ -16,7 +16,7 @@ namespace SimpleSoft.Database
         /// <param name="entities">The entity collection</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>The entity collection after changes</returns>
-        Task<IEnumerable<TEntity>> CreateRangeAsync(IEnumerable<TEntity> entities, CancellationToken ct);
+        Task<IEnumerable<TEntity>> CreateAsync(IEnumerable<TEntity> entities, CancellationToken ct);
 
         /// <summary>
         /// Creates a range of entities
@@ -24,6 +24,6 @@ namespace SimpleSoft.Database
         /// <param name="ct">The cancellation token</param>
         /// <param name="entities">The entity collection</param>
         /// <returns>The entity collection after changes</returns>
-        Task<IEnumerable<TEntity>> CreateRangeAsync(CancellationToken ct, params TEntity[] entities);
+        Task<IEnumerable<TEntity>> CreateAsync(CancellationToken ct, params TEntity[] entities);
     }
 }
