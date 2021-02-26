@@ -14,12 +14,10 @@ namespace SimpleSoft.Database
     }
 
     /// <summary>
-    /// Represents a database entity with a long
-    /// representing the unique identifier
+    /// Represents a database entity.
     /// </summary>
     public abstract class Entity : IEntity
     {
-        /// <inheritdoc />
-        public virtual long Id { get; set; }
+
     }
 }
