@@ -19,4 +19,19 @@ namespace SimpleSoft.Database
         /// <returns>The entity or null if not found</returns>
         Task<TEntity> ReadByIdAsync(TId id, CancellationToken ct);
     }
+
+    /// <summary>
+    /// Represents the read operation by a long unique identifier
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type</typeparam>
+    public interface IReadById<TEntity> where TEntity : IEntity<long>
+    {
+        /// <summary>
+        /// Read an entity by a unique identifier, returning null if not found.
+        /// </summary>
+        /// <param name="id">The entity id</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>The entity or null if not found</returns>
+        Task<TEntity> ReadByIdAsync(long id, CancellationToken ct);
+    }
 }
