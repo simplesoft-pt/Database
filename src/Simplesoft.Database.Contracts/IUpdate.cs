@@ -7,7 +7,8 @@ namespace SimpleSoft.Database
     /// Represents the update operation
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
-    public interface IUpdate<TEntity> where TEntity : IEntity
+    public interface IUpdate<TEntity> 
+        where TEntity : class, IEntity
     {
         /// <summary>
         /// Updates an entity

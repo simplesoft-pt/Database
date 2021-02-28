@@ -8,7 +8,8 @@ namespace SimpleSoft.Database
     /// Represents the delete operation in bulk
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
-    public interface IDeleteRange<TEntity> where TEntity : IEntity
+    public interface IDeleteRange<TEntity> 
+        where TEntity : class, IEntity
     {
         /// <summary>
         /// Deletes a range of entities

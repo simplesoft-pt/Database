@@ -7,7 +7,8 @@ namespace SimpleSoft.Database
     /// Represents the create operation
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
-    public interface ICreate<TEntity> where TEntity : IEntity
+    public interface ICreate<TEntity> 
+        where TEntity : class, IEntity
     {
         /// <summary>
         /// Creates an entity

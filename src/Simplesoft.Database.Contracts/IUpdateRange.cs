@@ -8,7 +8,8 @@ namespace SimpleSoft.Database
     /// Represents the update operation in bulk
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IUpdateRange<TEntity> where TEntity : IEntity
+    public interface IUpdateRange<TEntity> 
+        where TEntity : class, IEntity
     {
         /// <summary>
         /// Updates a range of entities

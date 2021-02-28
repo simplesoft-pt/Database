@@ -7,7 +7,8 @@ namespace SimpleSoft.Database
     /// Represents the delete operation
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
-    public interface IDelete<TEntity> where TEntity : IEntity
+    public interface IDelete<TEntity> 
+        where TEntity : class, IEntity
     {
         /// <summary>
         /// Deletes an entity

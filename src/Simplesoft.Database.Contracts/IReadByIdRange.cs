@@ -12,7 +12,7 @@ namespace SimpleSoft.Database
     /// <typeparam name="TEntity">The entity type</typeparam>
     /// <typeparam name="TId">The unique identifier type</typeparam>
     public interface IReadByIdRange<TEntity, in TId> 
-        where TEntity : IEntity<TId> 
+        where TEntity : class, IEntity<TId> 
         where TId : IEquatable<TId>
     {
         /// <summary>
@@ -38,7 +38,7 @@ namespace SimpleSoft.Database
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
     public interface IReadByIdRange<TEntity> : IReadByIdRange<TEntity, long>
-        where TEntity : IEntity<long>
+        where TEntity : class, IEntity<long>
     {
 
     }

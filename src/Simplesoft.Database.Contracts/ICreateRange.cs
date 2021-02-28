@@ -8,7 +8,8 @@ namespace SimpleSoft.Database
     /// Represents the create operation in bulk
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface ICreateRange<TEntity> where TEntity : IEntity
+    public interface ICreateRange<TEntity> 
+        where TEntity : class, IEntity
     {
         /// <summary>
         /// Creates a range of entities

@@ -10,7 +10,7 @@ namespace SimpleSoft.Database
     /// <typeparam name="TEntity">The entity type</typeparam>
     /// <typeparam name="TId">The unique identifier type</typeparam>
     public interface IReadByExternalId<TEntity, in TId> 
-        where TEntity : IEntity, IHaveExternalId<TId> 
+        where TEntity : class, IEntity, IHaveExternalId<TId> 
         where TId : IEquatable<TId>
     {
         /// <summary>
@@ -28,7 +28,7 @@ namespace SimpleSoft.Database
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
     public interface IReadByExternalId<TEntity> : IReadByExternalId<TEntity, Guid>
-        where TEntity : IEntity, IHaveExternalId
+        where TEntity : class, IEntity, IHaveExternalId
     {
 
     }

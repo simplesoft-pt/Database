@@ -27,7 +27,7 @@ namespace SimpleSoft.Database
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
     public interface IReadById<TEntity> : IReadById<TEntity, long>
-        where TEntity : IEntity<long>
+        where TEntity : class, IEntity<long>
     {
 
     }
