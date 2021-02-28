@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CB2A34DE-EB7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simplesoft.Database.Contracts", "src\Simplesoft.Database.Contracts\Simplesoft.Database.Contracts.csproj", "{FABC1F01-DC77-46B3-B7AB-5BE3591C8701}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplesoft.Database", "src\Simplesoft.Database\Simplesoft.Database.csproj", "{50989CF9-3730-4CAB-B3ED-9E851F999175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simplesoft.Database", "src\Simplesoft.Database\Simplesoft.Database.csproj", "{50989CF9-3730-4CAB-B3ED-9E851F999175}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0E7BDB60-E06E-4FC2-84BE-F42D6DBE4B6F}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0E7BDB60
 		SimpleSoft.Database.PublicKey = SimpleSoft.Database.PublicKey
 		SimpleSoft.Database.snk = SimpleSoft.Database.snk
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSoft.Database.EFCore", "src\SimpleSoft.Database.EFCore\SimpleSoft.Database.EFCore.csproj", "{1B9DAA45-BE33-4D63-8CC1-6E039345CF5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{50989CF9-3730-4CAB-B3ED-9E851F999175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50989CF9-3730-4CAB-B3ED-9E851F999175}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50989CF9-3730-4CAB-B3ED-9E851F999175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B9DAA45-BE33-4D63-8CC1-6E039345CF5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B9DAA45-BE33-4D63-8CC1-6E039345CF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B9DAA45-BE33-4D63-8CC1-6E039345CF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B9DAA45-BE33-4D63-8CC1-6E039345CF5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,6 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FABC1F01-DC77-46B3-B7AB-5BE3591C8701} = {CB2A34DE-EB7E-4283-9E66-398149DE5171}
 		{50989CF9-3730-4CAB-B3ED-9E851F999175} = {CB2A34DE-EB7E-4283-9E66-398149DE5171}
+		{1B9DAA45-BE33-4D63-8CC1-6E039345CF5C} = {CB2A34DE-EB7E-4283-9E66-398149DE5171}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1AC367A6-28B2-4F69-966A-17C232A704D2}
