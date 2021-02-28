@@ -10,7 +10,7 @@ namespace SimpleSoft.Database
     /// <typeparam name="TEntity">The entity type</typeparam>
     /// <typeparam name="TId">The unique identifier type</typeparam>
     public interface IReadById<TEntity, in TId> 
-        where TEntity : IEntity<TId> 
+        where TEntity : class, IEntity<TId> 
         where TId : IEquatable<TId>
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace SimpleSoft.Database
         /// <param name="id">The entity id</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>The entity or null if not found</returns>
-        Task<TEntity> ReadByIdAsync(TId id, CancellationToken ct);
+        Task<TEntity> ReadAsync(TId id, CancellationToken ct);
     }
 
     /// <summary>

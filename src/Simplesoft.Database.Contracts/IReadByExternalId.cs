@@ -19,7 +19,7 @@ namespace SimpleSoft.Database
         /// <param name="id">The entity id</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>The entity or null if not found</returns>
-        Task<TEntity> ReadByExternalIdAsync(TId id, CancellationToken ct);
+        Task<TEntity> ReadAsync(TId id, CancellationToken ct);
     }
 
     /// <summary>

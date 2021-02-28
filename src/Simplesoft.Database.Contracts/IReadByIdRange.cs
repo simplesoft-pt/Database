@@ -21,7 +21,7 @@ namespace SimpleSoft.Database
         /// <param name="ids">The collection of ids</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>The collection of entities</returns>
-        Task<IEnumerable<TEntity>> ReadByIdAsync(IEnumerable<TId> ids, CancellationToken ct);
+        Task<IEnumerable<TEntity>> ReadAsync(IEnumerable<TId> ids, CancellationToken ct);
 
         /// <summary>
         /// Reads a collection of entities by their unique identifiers.
@@ -29,7 +29,7 @@ namespace SimpleSoft.Database
         /// <param name="ct">The cancellation token</param>
         /// <param name="ids">The collection of ids</param>
         /// <returns>The collection of entities</returns>
-        Task<IEnumerable<TEntity>> ReadByIdAsync(CancellationToken ct, params TId[] ids);
+        Task<IEnumerable<TEntity>> ReadAsync(CancellationToken ct, params TId[] ids);
     }
 
     /// <summary>
