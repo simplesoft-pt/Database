@@ -31,8 +31,8 @@ namespace SimpleSoft.Database
         }
 
         /// <inheritdoc />
-        public Task<bool> ExistsAsync(TId id, CancellationToken ct) => 
-            _query.AnyAsync(e => e.Id.Equals(id), ct);
+        public async Task<bool> ExistsAsync(TId id, CancellationToken ct) => 
+            await _query.AnyAsync(e => e.Id.Equals(id), ct);
     }
 
     /// <summary>
