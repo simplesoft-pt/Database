@@ -16,10 +16,10 @@ namespace SimpleSoft.Database
         /// <summary>
         /// Read an entity by a unique identifier, returning null if not found.
         /// </summary>
-        /// <param name="id">The entity id</param>
+        /// <param name="externalId">The entity external unique identifier</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>The entity or null if not found</returns>
-        Task<TEntity> ReadAsync(TId id, CancellationToken ct);
+        Task<TEntity> ReadAsync(TId externalId, CancellationToken ct);
     }
 
     /// <summary>
