@@ -16,10 +16,10 @@ namespace SimpleSoft.Database
         /// <summary>
         /// Checks if an entity exists for a given unique identifier
         /// </summary>
-        /// <param name="id">The entity id</param>
+        /// <param name="externalId">The entity external unique identifier</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>True if exists, otherwise false</returns>
-        Task<bool> ExistsAsync(TId id, CancellationToken ct);
+        Task<bool> ExistsAsync(TId externalId, CancellationToken ct);
     }
 
     /// <summary>
