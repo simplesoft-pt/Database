@@ -22,14 +22,6 @@ namespace SimpleSoft.Database
         /// <param name="ct">The cancellation token</param>
         /// <returns>The collection of entities</returns>
         Task<IEnumerable<TEntity>> ReadAsync(IEnumerable<TId> externalIds, CancellationToken ct);
-
-        /// <summary>
-        /// Reads a collection of entities by their external unique identifiers.
-        /// </summary>
-        /// <param name="ct">The cancellation token</param>
-        /// <param name="externalIds">The collection of external unique identifiers</param>
-        /// <returns>The collection of entities</returns>
-        Task<IEnumerable<TEntity>> ReadAsync(CancellationToken ct, params TId[] externalIds);
     }
 
     /// <summary>

@@ -18,13 +18,5 @@ namespace SimpleSoft.Database
         /// <param name="ct">The cancellation token</param>
         /// <returns>The entity collection after changes</returns>
         Task<IEnumerable<TEntity>> UpdateAsync(IEnumerable<TEntity> entities, CancellationToken ct);
-
-        /// <summary>
-        /// Updates a range of entities
-        /// </summary>
-        /// <param name="ct">The cancellation token</param>
-        /// <param name="entities">The entity collection</param>
-        /// <returns>The entity collection after changes</returns>
-        Task<IEnumerable<TEntity>> UpdateAsync(CancellationToken ct, params TEntity[] entities);
     }
 }

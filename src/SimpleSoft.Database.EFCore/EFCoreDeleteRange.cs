@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,19 +32,16 @@ namespace SimpleSoft.Database
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<TEntity>> DeleteAsync(IEnumerable<TEntity> entities, CancellationToken ct) =>
-            DeleteAsync(entities as IList<TEntity> ?? entities.ToList(), ct);
-
-        /// <inheritdoc />
-        public Task<IEnumerable<TEntity>> DeleteAsync(CancellationToken ct, params TEntity[] entities) =>
-            DeleteAsync(entities, ct);
-
-        private async Task<IEnumerable<TEntity>> DeleteAsync(IList<TEntity> entities, CancellationToken ct)
+        public async Task<IEnumerable<TEntity>> DeleteAsync(IEnumerable<TEntity> entities, CancellationToken ct)
         {
-            _set.RemoveRange(entities);
+            if (entities == null) throw new ArgumentNullException(nameof(entities));
+
+            var enumeratedEntities = entities as IReadOnlyCollection<TEntity> ?? entities.ToList();
+
+            _set.RemoveRange(enumeratedEntities);
             await _context.SaveChangesAsync(ct);
 
-            return entities;
+            return enumeratedEntities;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,19 +32,16 @@ namespace SimpleSoft.Database
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<TEntity>> CreateAsync(IEnumerable<TEntity> entities, CancellationToken ct) =>
-            CreateAsync(entities as IList<TEntity> ?? entities.ToList(), ct);
-
-        /// <inheritdoc />
-        public Task<IEnumerable<TEntity>> CreateAsync(CancellationToken ct, params TEntity[] entities) =>
-            CreateAsync(entities, ct);
-
-        private async Task<IEnumerable<TEntity>> CreateAsync(IList<TEntity> entities, CancellationToken ct)
+        public async Task<IEnumerable<TEntity>> CreateAsync(IEnumerable<TEntity> entities, CancellationToken ct)
         {
-            await _set.AddRangeAsync(entities, ct);
+            if (entities == null) throw new ArgumentNullException(nameof(entities));
+
+            var enumeratedEntities = entities as IReadOnlyCollection<TEntity> ?? entities.ToList();
+
+            await _set.AddRangeAsync(enumeratedEntities, ct);
             await _context.SaveChangesAsync(ct);
 
-            return entities;
+            return enumeratedEntities;
         }
     }
 }
