@@ -3,32 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace SimpleSoft.Database
 {
     /// <summary>
     /// Represents the delete operation in bulk
     /// </summary>
-    /// <typeparam name="TContext">The context type</typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    public class EFCoreDeleteRange<TContext, TEntity> : IDeleteRange<TEntity>
-        where TContext : DbContext
+    public class EFCoreDeleteRange<TEntity> : IDeleteRange<TEntity>
         where TEntity : class, IEntity
     {
-        private readonly TContext _context;
-        private readonly DbSet<TEntity> _set;
+        private readonly EFCoreContextContainer _container;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="container"></param>
         public EFCoreDeleteRange(
-            TContext context
+            EFCoreContextContainer container
         )
         {
-            _context = context;
-            _set = context.Set<TEntity>();
+            _container = container;
         }
 
         /// <inheritdoc />
@@ -36,12 +31,11 @@ namespace SimpleSoft.Database
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
 
-            var enumeratedEntities = entities as IReadOnlyCollection<TEntity> ?? entities.ToList();
-
-            _set.RemoveRange(enumeratedEntities);
-            await _context.SaveChangesAsync(ct);
-
-            return enumeratedEntities;
+            return await _container.ExecuteAsync((ctx, collection, c) =>
+            {
+                ctx.Set<TEntity>().RemoveRange(collection);
+                return Task.FromResult(collection);
+            }, entities as IReadOnlyCollection<TEntity> ?? entities.ToList(), ct);
         }
     }
 }

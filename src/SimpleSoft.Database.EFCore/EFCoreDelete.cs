@@ -1,40 +1,36 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace SimpleSoft.Database
 {
     /// <summary>
     /// Represents the delete operation
     /// </summary>
-    /// <typeparam name="TContext">The context type</typeparam>
     /// <typeparam name="TEntity">The entity type</typeparam>
-    public class EFCoreDelete<TContext, TEntity> : IDelete<TEntity>
-        where TContext : DbContext
+    public class EFCoreDelete<TEntity> : IDelete<TEntity>
         where TEntity : class, IEntity
     {
-        private readonly TContext _context;
-        private readonly DbSet<TEntity> _set;
+        private readonly EFCoreContextContainer _container;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="container"></param>
         public EFCoreDelete(
-            TContext context
+            EFCoreContextContainer container
         )
         {
-            _context = context;
-            _set = context.Set<TEntity>();
+            _container = container;
         }
 
         /// <inheritdoc />
         public async Task<TEntity> DeleteAsync(TEntity entity, CancellationToken ct)
         {
-            var entry = _set.Remove(entity);
-            await _context.SaveChangesAsync(ct);
-
-            return entry.Entity;
+            return await _container.ExecuteAsync((ctx, single, c) =>
+            {
+                var entry = ctx.Set<TEntity>().Remove(single);
+                return Task.FromResult(entry.Entity);
+            }, entity, ct);
         }
     }
 }
