@@ -11,25 +11,23 @@ namespace SimpleSoft.Database
     /// Represents the read bulk operation by a collection of
     /// external unique identifiers
     /// </summary>
-    /// <typeparam name="TContext">The context type</typeparam>
     /// <typeparam name="TEntity">The entity type</typeparam>
     /// <typeparam name="TId">The unique identifier type</typeparam>
-    public class EFCoreReadByExternalIdRange<TContext, TEntity, TId> : IReadByExternalIdRange<TEntity, TId>
-        where TContext : DbContext
+    public class EFCoreReadByExternalIdRange<TEntity, TId> : IReadByExternalIdRange<TEntity, TId>
         where TEntity : class, IEntity, IHaveExternalId<TId>
         where TId : IEquatable<TId>
     {
-        private readonly IQueryable<TEntity> _query;
+        private readonly EFCoreContextContainer _container;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="container"></param>
         public EFCoreReadByExternalIdRange(
-            TContext context
+            EFCoreContextContainer container
         )
         {
-            _query = context.Set<TEntity>().AsNoTracking();
+            _container = container;
         }
 
         /// <inheritdoc />
@@ -37,7 +35,25 @@ namespace SimpleSoft.Database
         {
             if (externalIds == null) throw new ArgumentNullException(nameof(externalIds));
 
-            return await _query.Where(e => externalIds.Contains(e.ExternalId)).ToListAsync(ct);
+            return await _container.Query<TEntity>().Where(e => externalIds.Contains(e.ExternalId)).ToListAsync(ct);
+        }
+    }
+
+    /// <summary>
+    /// Represents the exists operation by an external unique identifier
+    /// of <see cref="Guid"/> type.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type</typeparam>
+    public class EFCoreReadByExternalIdRange<TEntity> : EFCoreReadByExternalIdRange<TEntity, Guid>, IReadByExternalIdRange<TEntity>
+        where TEntity : class, IEntity, IHaveExternalId
+    {
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
+        /// <param name="container"></param>
+        public EFCoreReadByExternalIdRange(EFCoreContextContainer container) : base(container)
+        {
+
         }
     }
 }
