@@ -2,7 +2,7 @@
 
 namespace SimpleSoft.Database
 {
-    public class ExternalIdGuidEntity : Entity, IHaveExternalId
+    public class ExternalIdGuidEntity : Entity<long>, IHaveExternalId
     {
         public Guid ExternalId { get; set; }
 

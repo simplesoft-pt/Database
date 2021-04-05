@@ -1,6 +1,6 @@
 ﻿namespace SimpleSoft.Database
 {
-    public class ExternalIdStringEntity : Entity, IHaveExternalId<string>
+    public class ExternalIdStringEntity : Entity<long>, IHaveExternalId<string>
     {
         public string ExternalId { get; set; }
 

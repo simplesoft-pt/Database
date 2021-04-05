@@ -11,8 +11,12 @@ namespace SimpleSoft.Database.EFCore
         {
             builder.Entity<ExternalIdGuidEntity>(cfg =>
             {
+                cfg.HasKey(e => e.Id);
                 cfg.HasAlternateKey(e => e.ExternalId);
 
+                cfg.Property(e => e.Id)
+                    .IsRequired()
+                    .ValueGeneratedOnAdd();
                 cfg.Property(e => e.ExternalId)
                     .IsRequired();
                 cfg.Property(e => e.Name)
@@ -22,8 +26,12 @@ namespace SimpleSoft.Database.EFCore
 
             builder.Entity<ExternalIdStringEntity>(cfg =>
             {
+                cfg.HasKey(e => e.Id);
                 cfg.HasAlternateKey(e => e.ExternalId);
 
+                cfg.Property(e => e.Id)
+                    .IsRequired()
+                    .ValueGeneratedOnAdd();
                 cfg.Property(e => e.ExternalId)
                     .IsRequired();
                 cfg.Property(e => e.Name)
@@ -38,13 +46,6 @@ namespace SimpleSoft.Database.EFCore
                 cfg.Property(e => e.Id)
                     .IsRequired()
                     .ValueGeneratedOnAdd();
-                cfg.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(128);
-            });
-
-            builder.Entity<IdNoneEntity>(cfg =>
-            {
                 cfg.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(128);
