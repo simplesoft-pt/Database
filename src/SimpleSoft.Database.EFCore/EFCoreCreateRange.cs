@@ -3,32 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace SimpleSoft.Database
 {
     /// <summary>
     /// Represents the create operation in bulk
     /// </summary>
-    /// <typeparam name="TContext">The context type</typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    public class EFCoreCreateRange<TContext, TEntity> : ICreateRange<TEntity>
-        where TContext : DbContext
+    public class EFCoreCreateRange<TEntity> : ICreateRange<TEntity>
         where TEntity : class, IEntity
     {
-        private readonly TContext _context;
-        private readonly DbSet<TEntity> _set;
+        private readonly EFCoreContextContainer _container;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="container"></param>
         public EFCoreCreateRange(
-            TContext context
+            EFCoreContextContainer container
         )
         {
-            _context = context;
-            _set = context.Set<TEntity>();
+            _container = container;
         }
 
         /// <inheritdoc />
@@ -36,12 +31,11 @@ namespace SimpleSoft.Database
         {
             if (entities == null) throw new ArgumentNullException(nameof(entities));
 
-            var enumeratedEntities = entities as IReadOnlyCollection<TEntity> ?? entities.ToList();
-
-            await _set.AddRangeAsync(enumeratedEntities, ct);
-            await _context.SaveChangesAsync(ct);
-
-            return enumeratedEntities;
+            return await _container.ExecuteAsync(async (ctx, collection, c) =>
+            {
+                await ctx.Set<TEntity>().AddRangeAsync(collection, c);
+                return collection;
+            }, entities as IReadOnlyCollection<TEntity> ?? entities.ToList(), ct);
         }
     }
 }

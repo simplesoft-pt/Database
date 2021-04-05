@@ -1,40 +1,36 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace SimpleSoft.Database
 {
     /// <summary>
     /// Represents the create operation
     /// </summary>
-    /// <typeparam name="TContext">The context type</typeparam>
     /// <typeparam name="TEntity">The entity type</typeparam>
-    public class EFCoreCreate<TContext, TEntity> : ICreate<TEntity>
-        where TContext : DbContext
+    public class EFCoreCreate<TEntity> : ICreate<TEntity>
         where TEntity : class, IEntity
     {
-        private readonly TContext _context;
-        private readonly DbSet<TEntity> _set;
+        private readonly EFCoreContextContainer _container;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="container"></param>
         public EFCoreCreate(
-            TContext context
+            EFCoreContextContainer container
         )
         {
-            _context = context;
-            _set = context.Set<TEntity>();
+            _container = container;
         }
 
         /// <inheritdoc />
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken ct)
         {
-            var entry = await _set.AddAsync(entity, ct);
-            await _context.SaveChangesAsync(ct);
-
-            return entry.Entity;
+            return await _container.ExecuteAsync(async (ctx, single, c) =>
+            {
+                var entry = await ctx.Set<TEntity>().AddAsync(single, c);
+                return entry.Entity;
+            }, entity, ct);
         }
     }
 }
