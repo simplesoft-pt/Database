@@ -13,11 +13,13 @@ namespace SimpleSoft.Database.EFCore
             _scopeFactory = TestSingletons.Provider.GetRequiredService<IServiceScopeFactory>();
         }
 
-        public async Task ExecuteAsync(Func<TestDbContext, Task> executor)
+        public async Task ExecuteAsync<TService>(Func<TService, Task> executor)
         {
             using var scope = _scopeFactory.CreateScope();
 
-            await executor(scope.ServiceProvider.GetRequiredService<TestDbContext>());
+            await executor(
+                scope.ServiceProvider.GetRequiredService<TService>()
+            );
         }
     }
 }
