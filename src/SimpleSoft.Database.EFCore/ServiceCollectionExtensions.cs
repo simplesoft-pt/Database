@@ -56,6 +56,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddTransient(typeof(IReadByIdRange<>), typeof(EFCoreReadByIdRange<>));
 
             // UPDATE
+            services.TryAddTransient(typeof(IUpdate<>), typeof(EFCoreUpdate<>));
+            services.TryAddTransient(typeof(IUpdateRange<>), typeof(EFCoreUpdateRange<>));
 
             // DELETE
             services.TryAddTransient(typeof(IDelete<>), typeof(EFCoreDelete<>));
