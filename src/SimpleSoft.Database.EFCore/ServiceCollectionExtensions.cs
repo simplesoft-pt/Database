@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -68,6 +69,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddTransient(typeof(IExistsByExternalId<>), typeof(EFCoreExistsByExternalId<>));
             services.TryAddTransient(typeof(IExistsById<,>), typeof(EFCoreExistsById<,>));
             services.TryAddTransient(typeof(IExistsById<>), typeof(EFCoreExistsById<>));
+
+            // QUERY
+            services.TryAddTransient(typeof(IQueryable<>), typeof(EFCoreQueryable<>));
 
             return services;
         }
