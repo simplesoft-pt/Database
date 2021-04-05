@@ -4,6 +4,7 @@
 		<TargetFrameworks>netcoreapp3.1;netcoreapp2.1;netcoreapp2.0</TargetFrameworks>
 		<RootNamespace>SimpleSoft.Database</RootNamespace>
 		<IsPackable>false</IsPackable>
+		<LangVersion>8</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
