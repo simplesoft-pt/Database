@@ -48,6 +48,12 @@ namespace Microsoft.Extensions.DependencyInjection
             // READ
             services.TryAddTransient(typeof(IReadByExternalId<,>), typeof(EFCoreReadByExternalId<,>));
             services.TryAddTransient(typeof(IReadByExternalId<>), typeof(EFCoreReadByExternalId<>));
+            services.TryAddTransient(typeof(IReadByExternalIdRange<,>), typeof(EFCoreReadByExternalIdRange<,>));
+            services.TryAddTransient(typeof(IReadByExternalIdRange<>), typeof(EFCoreReadByExternalIdRange<>));
+            services.TryAddTransient(typeof(IReadById<,>), typeof(EFCoreReadById<,>));
+            services.TryAddTransient(typeof(IReadById<>), typeof(EFCoreReadById<>));
+            services.TryAddTransient(typeof(IReadByIdRange<,>), typeof(EFCoreReadByIdRange<,>));
+            services.TryAddTransient(typeof(IReadByIdRange<>), typeof(EFCoreReadByIdRange<>));
 
             // UPDATE
 
