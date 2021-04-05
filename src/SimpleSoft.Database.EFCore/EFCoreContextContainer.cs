@@ -25,8 +25,8 @@ namespace SimpleSoft.Database
             IOptions<EFCoreContextContainerOptions> options
         )
         {
-            _context = context;
-            _options = options.Value;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _options = (options ?? throw new ArgumentNullException(nameof(options))).Value;
         }
 
         /// <summary>
