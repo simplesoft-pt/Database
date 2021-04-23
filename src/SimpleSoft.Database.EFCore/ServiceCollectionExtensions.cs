@@ -42,6 +42,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 s.GetRequiredService<IOptions<EFCoreContextContainerOptions>>()
             ));
 
+            services.TryAddTransient<ITransaction, EFCoreTransaction>();
+
             // CREATE
             services.TryAddTransient(typeof(ICreate<>), typeof(EFCoreCreate<>));
             services.TryAddTransient(typeof(ICreateRange<>), typeof(EFCoreCreateRange<>));

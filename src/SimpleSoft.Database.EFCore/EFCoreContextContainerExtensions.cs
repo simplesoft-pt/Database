@@ -82,11 +82,22 @@ namespace SimpleSoft.Database
             if (container == null) throw new ArgumentNullException(nameof(container));
             if (executor == null) throw new ArgumentNullException(nameof(executor));
 
+
+#if NETSTANDARD2_1
+            var innerParam = (param, executor);
+#else
+            var innerParam = new
+            {
+                param,
+                executor
+            };
+#endif
+
             return container.ExecuteAsync(async (ctx, p, c) =>
             {
                 await p.executor(ctx, p.param, c);
                 return 0;
-            }, (param, executor), ct);
+            }, innerParam, ct);
         }
 
         /// <summary>
