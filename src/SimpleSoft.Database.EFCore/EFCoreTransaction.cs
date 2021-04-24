@@ -71,8 +71,10 @@ namespace SimpleSoft.Database
             if (_disposed)
                 return;
 
-            await _transaction.DisposeAsync();
+            if (_transaction != null)
+                await _transaction.DisposeAsync();
 
+            _transaction = null;
             _disposed = true;
         }
 #endif
