@@ -8,6 +8,9 @@ namespace SimpleSoft.Database
     /// Creates and manages the current transaction
     /// </summary>
     public interface ITransaction : IDisposable
+#if NETSTANDARD2_1 
+    , IAsyncDisposable 
+#endif
     {
         /// <summary>
         /// Asynchronously begins a new transaction. />.
