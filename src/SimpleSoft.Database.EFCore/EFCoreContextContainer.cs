@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 
 namespace SimpleSoft.Database
@@ -77,7 +78,7 @@ namespace SimpleSoft.Database
         /// Enables the mutation of database entities via a <see cref="DbContext"/>.
         /// </summary>
         /// <remarks>
-        /// This will call <see cref="DbContext.SaveChangesAsync(CancellationToken)"/> after
+        /// This will call <see cref="EFCoreContextContainer.SaveChangesAsync(CancellationToken)"/> after
         /// executing the executor function if <see cref="EFCoreContextContainerOptions.AutoSaveChanges"/> is
         /// set to 'true'.
         /// </remarks>
@@ -99,9 +100,29 @@ namespace SimpleSoft.Database
             var result = await executor(_context, param, ct);
 
             if (_options.AutoSaveChanges)
-                await _context.SaveChangesAsync(ct);
+                await SaveChangesAsync(ct);
 
             return result;
+        }
+
+        /// <summary>
+        /// Begins a transaction asynchronously via <see cref="DbContext"/>.
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the newly created transaction. <see cref="IDbContextTransaction"/></returns>
+        public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct)
+        {
+            return _context.Database.BeginTransactionAsync(ct);
+        }
+
+        /// <summary>
+        /// Asynchronously persists all changes made to this context <see cref="DbContext.SaveChangesAsync(CancellationToken)"/>.
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <returns>A completed task of this operation</returns>
+        public async Task SaveChangesAsync(CancellationToken ct)
+        {
+            await _context.SaveChangesAsync(ct);
         }
     }
 }
