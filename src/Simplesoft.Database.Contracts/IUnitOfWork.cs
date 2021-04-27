@@ -9,10 +9,7 @@ namespace SimpleSoft.Database
     /// <summary>
     /// Interface representing an unit of work.
     /// </summary>
-    public interface IUnitOfWork : IDisposable
-#if NETSTANDARD2_1
-    , IAsyncDisposable
-#endif
+    public interface IUnitOfWork
     {
         /// <summary>
         /// Creates an entity

@@ -26,8 +26,17 @@ namespace SimpleSoft.Database
         /// <inheritdoc />
         public async Task<ITransaction> BeginTransactionAsync(CancellationToken ct)
         {
-            var transaction = _provider.GetRequiredService<EFCoreTransaction>();
-            await transaction.BeginAsync(ct);
+            var transaction = Service<ITransaction>();
+
+            try
+            {
+                await transaction.BeginAsync(ct);
+            }
+            catch
+            {
+                transaction.Dispose();
+            }
+
             return transaction;
         }
 
@@ -35,33 +44,28 @@ namespace SimpleSoft.Database
         public async Task<TEntity> CreateAsync<TEntity>(TEntity entity, CancellationToken ct) 
             where TEntity : class, IEntity
         {
-            var service = _provider.GetRequiredService<EFCoreCreate<TEntity>>();
-            return await service.CreateAsync(entity, ct);
+            return await Service<ICreate<TEntity>>().CreateAsync(entity, ct);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> CreateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            var service = _provider.GetRequiredService<EFCoreCreateRange<TEntity>>();
-
-            return await service.CreateAsync(entities, ct);
+            return await Service<ICreateRange<TEntity>>().CreateAsync(entities, ct);
         }
 
         /// <inheritdoc />
         public async Task<TEntity> DeleteAsync<TEntity>(TEntity entity, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            var service = _provider.GetRequiredService<EFCoreDelete<TEntity>>();
-            return await service.DeleteAsync(entity, ct);
+            return await Service<IDelete<TEntity>>().DeleteAsync(entity, ct);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> DeleteAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            var service = _provider.GetRequiredService<EFCoreDeleteRange<TEntity>>();
-            return await service.DeleteAsync(entities, ct);
+            return await Service<IDeleteRange<TEntity>>().DeleteAsync(entities, ct);
         }
 
         /// <inheritdoc />
@@ -69,16 +73,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity, IHaveExternalId<TId>
             where TId : IEquatable<TId>
         {
-            var service = _provider.GetRequiredService<EFCoreExistsByExternalId<TEntity, TId>>();
-            return await service.ExistsAsync(externalId, ct);
+            return await Service<IExistsByExternalId<TEntity, TId>>().ExistsAsync(externalId, ct);
         }
 
         /// <inheritdoc />
         public async Task<bool> ExistsByExternalIdAsync<TEntity>(Guid externalId, CancellationToken ct)
             where TEntity : class, IEntity, IHaveExternalId
         {
-            var service = _provider.GetRequiredService<EFCoreExistsByExternalId<TEntity>>();
-            return await service.ExistsAsync(externalId, ct);
+            return await Service<IExistsByExternalId<TEntity>>().ExistsAsync(externalId, ct);
         }
 
         /// <inheritdoc />
@@ -86,24 +88,21 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
         {
-            var service = _provider.GetRequiredService<EFCoreExistsById<TEntity, TId>>();
-            return await service.ExistsAsync(id, ct);
+            return await Service<IExistsById<TEntity, TId>>().ExistsAsync(id, ct);
         }
 
         /// <inheritdoc />
         public async Task<bool> ExistsByIdAsync<TEntity>(long id, CancellationToken ct)
             where TEntity : class, IEntity<long>
         {
-            var service = _provider.GetRequiredService<EFCoreExistsById<TEntity>>();
-            return await service.ExistsAsync(id, ct);
+            return await Service<IExistsById<TEntity>>().ExistsAsync(id, ct);
         }
 
         /// <inheritdoc />
         public IQueryable<TEntity> Query<TEntity>()
             where TEntity : class, IEntity
         {
-            var service = _provider.GetRequiredService<EFCoreQueryable<TEntity>>();
-            return service.AsQueryable();
+            return Service<IQueryable<TEntity>>().AsQueryable();
         }
 
         /// <inheritdoc />
@@ -111,16 +110,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity, IHaveExternalId<TId>
             where TId : IEquatable<TId>
         {
-            var service = _provider.GetRequiredService<EFCoreReadByExternalId<TEntity, TId>>();
-            return await service.ReadAsync(externalId, ct);
+            return await Service<IReadByExternalId<TEntity, TId>>().ReadAsync(externalId, ct);
         }
 
         /// <inheritdoc />
         public async Task<TEntity> ReadByExternalIdAsync<TEntity>(Guid externalId, CancellationToken ct)
             where TEntity : class, IEntity, IHaveExternalId
         {
-            var service = _provider.GetRequiredService<EFCoreReadByExternalId<TEntity>>();
-            return await service.ReadAsync(externalId, ct);
+            return await Service<IReadByExternalId<TEntity>>().ReadAsync(externalId, ct);
         }
 
         /// <inheritdoc />
@@ -128,16 +125,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity, IHaveExternalId<TId>
             where TId : IEquatable<TId>
         {
-            var service = _provider.GetRequiredService<EFCoreReadByExternalIdRange<TEntity, TId>>();
-            return await service.ReadAsync(externalIds, ct);
+            return await Service<IReadByExternalIdRange<TEntity, TId>>().ReadAsync(externalIds, ct);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> ReadByExternalIdAsync<TEntity>(IEnumerable<Guid> externalIds, CancellationToken ct)
             where TEntity : class, IEntity, IHaveExternalId
         {
-            var service = _provider.GetRequiredService<EFCoreReadByExternalIdRange<TEntity>>();
-            return await service.ReadAsync(externalIds, ct);
+            return await Service<IReadByExternalIdRange<TEntity>>().ReadAsync(externalIds, ct);
         }
 
         /// <inheritdoc />
@@ -145,16 +140,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
         {
-            var service = _provider.GetRequiredService<EFCoreReadById<TEntity, TId>>();
-            return await service.ReadAsync(id, ct);
+            return await Service<IReadById<TEntity, TId>>().ReadAsync(id, ct);
         }
 
         /// <inheritdoc />
         public async Task<TEntity> ReadByIdAsync<TEntity>(long id, CancellationToken ct)
             where TEntity : class, IEntity<long>
         {
-            var service = _provider.GetRequiredService<EFCoreReadById<TEntity>>();
-            return await service.ReadAsync(id, ct);
+            return await Service<IReadById<TEntity>>().ReadAsync(id, ct);
         }
 
         /// <inheritdoc />
@@ -162,78 +155,39 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
         {
-            var service = _provider.GetRequiredService<EFCoreReadByIdRange<TEntity, TId>>();
-            return await service.ReadAsync(ids, ct);
+            return await Service<IReadByIdRange<TEntity, TId>>().ReadAsync(ids, ct);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> ReadByIdAsync<TEntity>(IEnumerable<long> ids, CancellationToken ct)
             where TEntity : class, IEntity<long>
         {
-            var service = _provider.GetRequiredService<EFCoreReadByIdRange<TEntity>>();
-            return await service.ReadAsync(ids, ct);
+            return await Service<IReadByIdRange<TEntity>>().ReadAsync(ids, ct);
         }
 
         /// <inheritdoc />
         public async Task<TEntity> UpdateAsync<TEntity>(TEntity entity, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            var service = _provider.GetRequiredService<EFCoreUpdate<TEntity>>();
-            return await service.UpdateAsync(entity, ct);
+            return await Service<IUpdate<TEntity>>().UpdateAsync(entity, ct);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> UpdateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            var service = _provider.GetRequiredService<EFCoreUpdateRange<TEntity>>();
-            return await service.UpdateAsync(entities, ct);
-        }
-
-        #region IDisposable
-
-        /// <inheritdoc />
-        ~EFCoreUnitOfWork() => Dispose(false);
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            return await Service<IUpdateRange<TEntity>>().UpdateAsync(entities, ct);
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting
-        /// unmanaged resources.
+        /// Get service of type <typeparamref name="T"/> from the <see cref="IServiceProvider"/>.
         /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
+        /// <typeparam name="T">The type of service object to get.</typeparam>
+        /// <returns>A service object of type <typeparamref name="T"/>.</returns>
+        protected T Service<T>()
         {
+            return (T)_provider.GetRequiredService(typeof(T));
         }
-
-#if NETSTANDARD2_1
-
-        /// <inheritdoc />
-        public async ValueTask DisposeAsync()
-        {
-            await this.DisposeAsyncCore().ConfigureAwait(false);
-
-            Dispose(disposing: false);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting
-        /// unmanaged resources asynchronously.
-        /// </summary>
-        /// <returns>A completed task of this operation</returns>
-        protected virtual ValueTask DisposeAsyncCore()
-        {
-            return default;
-        }
-#endif
-
-        #endregion
 
     }
 }
