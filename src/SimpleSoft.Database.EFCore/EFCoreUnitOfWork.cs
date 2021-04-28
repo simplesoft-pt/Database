@@ -35,6 +35,7 @@ namespace SimpleSoft.Database
             catch
             {
                 transaction.Dispose();
+                throw;
             }
 
             return transaction;
