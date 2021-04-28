@@ -34,7 +34,11 @@ namespace SimpleSoft.Database
             }
             catch
             {
+#if NETSTANDARD2_1
+                await transaction.DisposeAsync();
+#else
                 transaction.Dispose();
+#endif
                 throw;
             }
 
