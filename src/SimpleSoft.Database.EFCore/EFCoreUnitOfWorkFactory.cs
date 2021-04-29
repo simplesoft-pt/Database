@@ -69,6 +69,8 @@ namespace SimpleSoft.Database
             /// <returns>A completed task of this operation</returns>
             protected virtual ValueTask DisposeAsyncCore()
             {
+                _scope?.Dispose();
+
                 return default;
             }
 #endif
