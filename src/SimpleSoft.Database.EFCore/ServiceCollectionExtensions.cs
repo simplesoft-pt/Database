@@ -42,6 +42,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 s.GetRequiredService<IOptions<EFCoreContextContainerOptions>>()
             ));
 
+            services.TryAddSingleton<IUnitOfWorkFactory, EFCoreUnitOfWorkFactory>();
             services.TryAddTransient<IUnitOfWork, EFCoreUnitOfWork>();
             services.TryAddTransient<ITransaction, EFCoreTransaction>();
 
