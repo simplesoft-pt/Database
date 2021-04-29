@@ -30,7 +30,7 @@ namespace SimpleSoft.Database
             public EFCoreUnitOfWorkScoped(IServiceScope scope)
                 : base(scope.ServiceProvider)
             {
-                _scope = scope ?? throw new ArgumentNullException(nameof(scope));
+                _scope = scope;
             }
 
             #region IDisposable
