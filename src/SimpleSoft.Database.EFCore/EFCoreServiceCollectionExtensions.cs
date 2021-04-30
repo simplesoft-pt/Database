@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// Extensions for <see cref="IServiceCollection"/> instances.
     /// </summary>
-    public static class ServiceCollectionExtensions
+    public static class EFCoreServiceCollectionExtensions
     {
         /// <summary>
         /// Registers into the container wrappers for each context operation, enabling
