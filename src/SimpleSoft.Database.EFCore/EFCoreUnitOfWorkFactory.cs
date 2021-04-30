@@ -21,14 +21,13 @@ namespace SimpleSoft.Database
         }
 
         /// <inheritdoc />
-        public IUnitOfWorkScoped Create() =>
-            new EFCoreUnitOfWorkScoped(_scopeFactory.CreateScope());
+        public IUnitOfWorkScoped Create() => new EFCoreUnitOfWorkScoped(_scopeFactory.CreateScope());
 
         private class EFCoreUnitOfWorkScoped : EFCoreUnitOfWork, IUnitOfWorkScoped
         {
             private IServiceScope _scope;
-            public EFCoreUnitOfWorkScoped(IServiceScope scope)
-                : base(scope.ServiceProvider)
+
+            public EFCoreUnitOfWorkScoped(IServiceScope scope) : base(scope.ServiceProvider)
             {
                 _scope = scope;
             }
@@ -44,7 +43,7 @@ namespace SimpleSoft.Database
                 GC.SuppressFinalize(this);
             }
 
-            protected void Dispose(bool disposing)
+            private void Dispose(bool disposing)
             {
                 if (disposing)
                     _scope?.Dispose();
@@ -53,26 +52,18 @@ namespace SimpleSoft.Database
             }
 
 #if NETSTANDARD2_1
+
             /// <inheritdoc />
-            public async ValueTask DisposeAsync()
-            {
-                await this.DisposeAsyncCore().ConfigureAwait(false);
-
-                Dispose(disposing: false);
-                GC.SuppressFinalize(this);
-            }
-
-            /// <summary>
-            /// Performs application-defined tasks associated with freeing, releasing, or resetting
-            /// unmanaged resources asynchronously.
-            /// </summary>
-            /// <returns>A completed task of this operation</returns>
-            protected virtual ValueTask DisposeAsyncCore()
+            public ValueTask DisposeAsync()
             {
                 _scope?.Dispose();
 
+                Dispose(false);
+                GC.SuppressFinalize(this);
+
                 return default;
             }
+
 #endif
             #endregion
         }
