@@ -32,6 +32,8 @@ public class Startup
 
         services.AddMvc();
     }
+    
+    // ...
 }
 
 public class ExampleContext : DbContext
