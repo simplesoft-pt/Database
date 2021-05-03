@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleSoft.Database.EFCoreExamples.Entities;
@@ -12,8 +13,11 @@ namespace SimpleSoft.Database.EFCoreExamples
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ExampleContext>(o => o.UseInMemoryDatabase("ExampleDatabase"))
-                .AddDbContextOperations<ExampleContext>(); // add this line here
+                .AddDbContext<ExampleContext>(o => o
+                    .UseInMemoryDatabase("ExampleDatabase")
+                    .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                )
+                .AddDbContextOperations<ExampleContext>();
 
             services.AddMvc();
 

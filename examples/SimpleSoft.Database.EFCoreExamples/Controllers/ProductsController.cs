@@ -20,6 +20,7 @@ namespace SimpleSoft.Database.EFCoreExamples.Controllers
         ]
         public async Task<IEnumerable<ProductModel>> GetAll(
             [FromServices] IQueryable<ProductEntity> productQuery,
+            [FromServices] IQueryable<PriceHistoryEntity> priceHistoryQuery,
             CancellationToken ct
         )
         {
@@ -28,7 +29,11 @@ namespace SimpleSoft.Database.EFCoreExamples.Controllers
                 Id = p.ExternalId,
                 Code = p.Code,
                 Name = p.Name,
-                Price = p.Price
+                Price = priceHistoryQuery
+                    .Where(ph => ph.ProductId == p.Id)
+                    .OrderByDescending(ph => ph.CreatedOn)
+                    .First()
+                    .Value
             }).ToListAsync(ct);
         }
 
@@ -41,6 +46,7 @@ namespace SimpleSoft.Database.EFCoreExamples.Controllers
         ]
         public async Task<IActionResult> GetById(
             [FromServices] IReadByExternalId<ProductEntity> productByExternalId,
+            [FromServices] IQueryable<PriceHistoryEntity> priceHistoryQuery,
             [FromRoute] Guid id,
             CancellationToken ct
         )
@@ -50,16 +56,21 @@ namespace SimpleSoft.Database.EFCoreExamples.Controllers
             {
                 return NotFound(new ErrorModel
                 {
-                    Message = $"Product {id} not found"
+                    Message = $"Product '{id}' not found"
                 });
             }
+
+            var price = await priceHistoryQuery
+                .Where(ph => ph.ProductId == product.Id)
+                .OrderByDescending(ph => ph.CreatedOn)
+                .FirstAsync(ct);
 
             return Ok(new ProductModel
             {
                 Id = product.ExternalId,
                 Code = product.Code,
                 Name = product.Name,
-                Price = product.Price
+                Price = price.Value
             });
         }
 
@@ -71,8 +82,10 @@ namespace SimpleSoft.Database.EFCoreExamples.Controllers
             ProducesResponseType(409, Type = typeof(ErrorModel))
         ]
         public async Task<IActionResult> Create(
+            [FromServices] ITransaction transaction,
             [FromServices] IQueryable<ProductEntity> productQuery,
             [FromServices] ICreate<ProductEntity> productCreate,
+            [FromServices] ICreate<PriceHistoryEntity> priceHistoryCreate,
             [FromBody] CreateProductModel model,
             CancellationToken ct
         )
@@ -81,24 +94,34 @@ namespace SimpleSoft.Database.EFCoreExamples.Controllers
             {
                 return Conflict(new ErrorModel
                 {
-                    Message = "Duplicated product code"
+                    Message = $"Product code '{model.Code}' already exists"
                 });
             }
+
+            await transaction.BeginAsync(ct);
 
             var product = await productCreate.CreateAsync(new ProductEntity
             {
                 ExternalId = Guid.NewGuid(),
                 Code = model.Code,
-                Name = model.Name,
-                Price = model.Price
+                Name = model.Name
             }, ct);
+
+            var price = await priceHistoryCreate.CreateAsync(new PriceHistoryEntity
+            {
+                ProductId = product.Id,
+                Value = model.Price,
+                CreatedOn = DateTimeOffset.UtcNow
+            }, ct);
+
+            await transaction.CommitAsync(ct);
 
             return CreatedAtAction(nameof(GetById), new {id = product.ExternalId}, new ProductModel
             {
                 Id = product.ExternalId,
                 Code = product.Code,
                 Name = product.Name,
-                Price = product.Price
+                Price = price.Value
             });
         }
     }

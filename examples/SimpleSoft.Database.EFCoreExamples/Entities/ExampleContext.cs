@@ -21,7 +21,21 @@ namespace SimpleSoft.Database.EFCoreExamples.Entities
                 cfg.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(256);
-                cfg.Property(e => e.Price)
+            });
+
+            builder.Entity<PriceHistoryEntity>(cfg =>
+            {
+                cfg.MapPrimaryKey();
+                cfg.HasIndex(e => e.CreatedOn);
+
+                cfg.HasOne<ProductEntity>()
+                    .WithMany()
+                    .HasForeignKey(e => e.ProductId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+                cfg.Property(e => e.Value)
+                    .IsRequired();
+                cfg.Property(e => e.CreatedOn)
                     .IsRequired();
             });
         }
