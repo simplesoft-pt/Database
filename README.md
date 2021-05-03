@@ -63,23 +63,24 @@ public class ExampleContext : DbContext
 [Route("products")]
 public class ProductsController : Controller
 {
-    // either inject by constructor of directly into each method
-
+    // either inject by constructor
+    
     //private readonly IQueryable<ProductEntity> _productQuery;
     //private readonly IReadByExternalId<ProductEntity> _productByExternalId;
     //private readonly ICreate<ProductEntity> _productCreate;
-
+    
     //public ProductsController(
     //    IQueryable<ProductEntity> productQuery,
     //    IReadByExternalId<ProductEntity> productByExternalId,
     //    ICreate<ProductEntity> productCreate
-    //    )
+    //)
     //{
     //    _productQuery = productQuery;
     //    _productByExternalId = productByExternalId;
     //    _productCreate = productCreate;
     //}
     
+    // or inject directly into each method
     [HttpGet("")]
     public async Task<IEnumerable<ProductModel>> GetAll(
         [FromServices] IQueryable<ProductEntity> productQuery,
