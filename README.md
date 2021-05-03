@@ -64,7 +64,7 @@ public class ExampleContext : DbContext
 public class ProductsController : Controller
 {
     [HttpGet("")]
-    public async Task<IEnumerable<ProductModel>> GetAllAsync(
+    public async Task<IEnumerable<ProductModel>> GetAll(
         [FromServices] IQueryable<ProductEntity> productQuery,
         CancellationToken ct
     )
@@ -79,7 +79,7 @@ public class ProductsController : Controller
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetByIdAsync(
+    public async Task<IActionResult> GetById(
         [FromServices] IReadByExternalId<ProductEntity> productByExternalId,
         [FromRoute] Guid id,
         CancellationToken ct
@@ -88,7 +88,7 @@ public class ProductsController : Controller
         var product = await productByExternalId.ReadAsync(id, ct);
         if (product == null)
         {
-            return NotFound(new
+            return NotFound(new ErrorModel
             {
                 Message = $"Product {id} not found"
             });
@@ -104,7 +104,7 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(
+    public async Task<IActionResult> Create(
         [FromServices] IQueryable<ProductEntity> productQuery,
         [FromServices] ICreate<ProductEntity> productCreate,
         [FromBody] CreateProductModel model,
@@ -113,7 +113,7 @@ public class ProductsController : Controller
     {
         if (await productQuery.AnyAsync(p => p.Code == model.Code, ct))
         {
-            return Conflict(new
+            return Conflict(new ErrorModel
             {
                 Message = "Duplicated product code"
             });
@@ -127,7 +127,7 @@ public class ProductsController : Controller
             Price = model.Price
         }, ct);
 
-        return CreatedAtAction(nameof(GetByIdAsync), new ProductModel
+        return CreatedAtAction(nameof(GetById), new {id = product.ExternalId}, new ProductModel
         {
             Id = product.ExternalId,
             Code = product.Code,
