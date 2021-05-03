@@ -1,0 +1,29 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace SimpleSoft.Database.EFCoreExamples.Entities
+{
+    public class ExampleContext : DbContext
+    {
+        public ExampleContext(DbContextOptions<ExampleContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ProductEntity>(cfg =>
+            {
+                cfg.MapPrimaryKey();
+                cfg.HasAlternateKey(e => e.ExternalId);//cfg.MapExternalId();
+                cfg.HasIndex(e => e.Code).IsUnique();
+
+                cfg.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(8);
+                cfg.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(256);
+                cfg.Property(e => e.Price)
+                    .IsRequired();
+            });
+        }
+    }
+}
