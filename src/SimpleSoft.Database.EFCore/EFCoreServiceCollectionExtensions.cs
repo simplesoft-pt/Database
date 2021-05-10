@@ -44,7 +44,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAddSingleton<IUnitOfWorkFactory, EFCoreUnitOfWorkFactory>();
             services.TryAddTransient<IUnitOfWork, EFCoreUnitOfWork>();
-            services.TryAddTransient<ITransaction, EFCoreTransaction>();
+            services.TryAddScoped<ITransaction, EFCoreTransaction>();
 
             // CREATE
             services.TryAddTransient(typeof(ICreate<>), typeof(EFCoreCreate<>));

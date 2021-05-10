@@ -107,7 +107,7 @@ namespace SimpleSoft.Database
         public IQueryable<TEntity> Query<TEntity>()
             where TEntity : class, IEntity
         {
-            return Service<IQueryable<TEntity>>().AsQueryable();
+            return Service<IQueryable<TEntity>>();
         }
 
         /// <inheritdoc />
@@ -189,10 +189,6 @@ namespace SimpleSoft.Database
         /// </summary>
         /// <typeparam name="T">The type of service object to get.</typeparam>
         /// <returns>A service object of type <typeparamref name="T"/>.</returns>
-        protected T Service<T>()
-        {
-            return (T)_provider.GetRequiredService(typeof(T));
-        }
-
+        protected T Service<T>() => _provider.GetRequiredService<T>();
     }
 }
