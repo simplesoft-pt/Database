@@ -10,11 +10,5 @@
         /// Defaults to 'true'.
         /// </summary>
         public bool AutoFlush { get; set; } = true;
-
-        /// <summary>
-        /// Should tracking be disabled when fetching entities from the database?
-        /// Defaults to 'true'.
-        /// </summary>
-        public bool NoTracking { get; set; } = true;
     }
 }
