@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using NHibernate;
 
 namespace SimpleSoft.Database
@@ -22,11 +23,11 @@ namespace SimpleSoft.Database
         /// <param name="options"></param>
         public NHSessionContainer(
             ISession session,
-            NHSessionContainerOptions options
+            IOptions<NHSessionContainerOptions> options
         )
         {
             _session = session ?? throw new ArgumentNullException(nameof(session));
-            _options = options ?? throw new ArgumentNullException(nameof(options));
+            _options = (options ?? throw new ArgumentNullException(nameof(options))).Value;
         }
 
         /// <summary>
