@@ -25,9 +25,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="config"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException" />
-        public static IServiceCollection AddDbContextOperations(
+        public static IServiceCollection AddSessionOperations(
             this IServiceCollection services,
-            Action<NHSessionContainer> config = null
+            Action<NHSessionContainerOptions> config = null
         )
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
@@ -35,10 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
             if (config != null)
                 services.Configure(config);
 
-            services.TryAddTransient(s => new NHSessionContainer(
-                s.GetRequiredService<NHibernate.ISession>(),
-                s.GetRequiredService<IOptions<NHSessionContainerOptions>>()
-            ));
+            services.TryAddTransient<NHSessionContainer>();
 
             services.TryAddSingleton<IUnitOfWorkFactory, NHUnitOfWorkFactory>();
             services.TryAddTransient<IUnitOfWork, NHUnitOfWork>();

@@ -58,8 +58,8 @@ namespace SimpleSoft.Database
             else
                 builder.Property(e => e.ExternalId, map =>
                 {
-                    map.Index(nameof(IHaveExternalId.ExternalId));
-                    map.UniqueKey(nameof(IHaveExternalId.ExternalId));
+                    map.Index(nameof(IHaveExternalId<TId>.ExternalId));
+                    map.UniqueKey(nameof(IHaveExternalId<TId>.ExternalId));
                 });
 
             builder.Property(e => e.ExternalId, m => m.NotNullable(true));
