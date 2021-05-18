@@ -12,7 +12,7 @@ namespace SimpleSoft.Database.EFCoreExamples.Entities
             builder.Entity<ProductEntity>(cfg =>
             {
                 cfg.MapPrimaryKey();
-                cfg.HasAlternateKey(e => e.ExternalId);//cfg.MapExternalId();
+                cfg.MapExternalId();
                 cfg.HasIndex(e => e.Code).IsUnique();
 
                 cfg.Property(e => e.Code)
