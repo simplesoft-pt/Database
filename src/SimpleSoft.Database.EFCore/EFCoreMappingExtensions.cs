@@ -61,7 +61,10 @@ namespace Microsoft.EntityFrameworkCore.Metadata.Builders
             where TId : IEquatable<TId>
         {
             if (isAlternateKey)
-                builder.HasAlternateKey(e => e.ExternalId);
+            {
+                EntityTypeBuilder b = builder;
+                b.HasAlternateKey(nameof(IHaveExternalId<TId>.ExternalId));
+            }
             else
                 builder.HasIndex(e => e.ExternalId).IsUnique();
 
