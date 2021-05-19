@@ -13,11 +13,15 @@ The library is available via [NuGet](https://www.nuget.org/packages?q=simplesoft
 ## Compatibility
 This library is compatible with the following frameworks:
 
-* `SimpleSoft.Mediator.Contracts`
+* `SimpleSoft.Database.Contracts`
   * .NET Framework 4.0+;
   * .NET Standard 1.0+;
-* `SimpleSoft.Mediator`
+* `SimpleSoft.Database.EFCore`
   * .NET Standard 1.3+;
+* `SimpleSoft.Database.NH`
+  * .NET Framework 4.6.1+;
+  * .NET Standard 2.0+;
+  * .NET Core App 2.0+;
 
 ## Usage
 Here is a simple example how to setup and use within an ASP.NET Core application:
