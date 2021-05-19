@@ -8,6 +8,7 @@ The library is available via [NuGet](https://www.nuget.org/packages?q=simplesoft
 | --- | --- | --- |
 | [SimpleSoft.Database.Contracts](https://www.nuget.org/packages/simplesoft.database.contracts) | database contracts (IReadById, ICreate, IDelete, ...) | [![NuGet](https://img.shields.io/nuget/vpre/simplesoft.database.contracts.svg)](https://www.nuget.org/packages/simplesoft.database.contracts) |
 | [SimpleSoft.Database.EFCore](https://www.nuget.org/packages/simplesoft.database.efcore) | Entity Framework Core implementation | [![NuGet](https://img.shields.io/nuget/vpre/simplesoft.database.efcore.svg)](https://www.nuget.org/packages/simplesoft.database.efcore) |
+| [SimpleSoft.Database.NH](https://www.nuget.org/packages/simplesoft.database.nh) | NHibernate implementation | [![NuGet](https://img.shields.io/nuget/vpre/simplesoft.database.nh.svg)](https://www.nuget.org/packages/simplesoft.database.nh) |
 
 ## Compatibility
 This library is compatible with the following frameworks:
