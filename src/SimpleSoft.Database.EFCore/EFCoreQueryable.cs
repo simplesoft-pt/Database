@@ -10,7 +10,7 @@ namespace SimpleSoft.Database
     /// Represents an entity query
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
-    public class EFCoreQueryable<TEntity> : IQueryable<TEntity>
+    public class EFCoreQueryable<TEntity> : IQueryable<TEntity>, IAsyncEnumerable<TEntity>
         where TEntity : class, IEntity
     {
         private readonly IQueryable<TEntity> _query;
@@ -31,6 +31,14 @@ namespace SimpleSoft.Database
         public IEnumerator<TEntity> GetEnumerator() => _query.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+#if NETSTANDARD2_1
+        /// <inheritdoc />
+        public IAsyncEnumerator<TEntity> GetAsyncEnumerator(System.Threading.CancellationToken ct = default) =>
+            ((IAsyncEnumerable<TEntity>) _query).GetAsyncEnumerator(ct);
+#else
+        IAsyncEnumerator<TEntity> IAsyncEnumerable<TEntity>.GetEnumerator() => ((IAsyncEnumerable<TEntity>)_query).GetEnumerator();
+#endif
 
         /// <inheritdoc />
         public Type ElementType => _query.ElementType;
