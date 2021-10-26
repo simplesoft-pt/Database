@@ -17,17 +17,15 @@ namespace SimpleSoft.Database
         where TEntity : class, IEntity<TId>
         where TId : IEquatable<TId>
     {
-        private readonly EFCoreContextContainer _container;
+        private readonly IQueryable<TEntity> _query;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="container"></param>
-        public EFCoreReadByIdRange(
-            EFCoreContextContainer container
-        )
+        /// <param name="query"></param>
+        public EFCoreReadByIdRange(IQueryable<TEntity> query)
         {
-            _container = container;
+            _query = query;
         }
 
         /// <inheritdoc />
@@ -35,7 +33,7 @@ namespace SimpleSoft.Database
         {
             if (ids == null) throw new ArgumentNullException(nameof(ids));
 
-            return await _container.Query<TEntity>().Where(e => ids.Contains(e.Id)).ToListAsync(ct);
+            return await _query.Where(e => ids.Contains(e.Id)).ToListAsync(ct);
         }
     }
 
@@ -50,8 +48,8 @@ namespace SimpleSoft.Database
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="container"></param>
-        public EFCoreReadByIdRange(EFCoreContextContainer container) : base(container)
+        /// <param name="query"></param>
+        public EFCoreReadByIdRange(IQueryable<TEntity> query) : base(query)
         {
 
         }

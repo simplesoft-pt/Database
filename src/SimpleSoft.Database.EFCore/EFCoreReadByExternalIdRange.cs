@@ -17,17 +17,15 @@ namespace SimpleSoft.Database
         where TEntity : class, IEntity, IHaveExternalId<TId>
         where TId : IEquatable<TId>
     {
-        private readonly EFCoreContextContainer _container;
+        private readonly IQueryable<TEntity> _query;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="container"></param>
-        public EFCoreReadByExternalIdRange(
-            EFCoreContextContainer container
-        )
+        /// <param name="query"></param>
+        public EFCoreReadByExternalIdRange(IQueryable<TEntity> query)
         {
-            _container = container;
+            _query = query;
         }
 
         /// <inheritdoc />
@@ -35,7 +33,7 @@ namespace SimpleSoft.Database
         {
             if (externalIds == null) throw new ArgumentNullException(nameof(externalIds));
 
-            return await _container.Query<TEntity>().Where(e => externalIds.Contains(e.ExternalId)).ToListAsync(ct);
+            return await _query.Where(e => externalIds.Contains(e.ExternalId)).ToListAsync(ct);
         }
     }
 
@@ -50,8 +48,8 @@ namespace SimpleSoft.Database
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="container"></param>
-        public EFCoreReadByExternalIdRange(EFCoreContextContainer container) : base(container)
+        /// <param name="query"></param>
+        public EFCoreReadByExternalIdRange(IQueryable<TEntity> query) : base(query)
         {
 
         }

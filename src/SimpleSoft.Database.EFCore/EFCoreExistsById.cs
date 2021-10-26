@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -14,22 +15,20 @@ namespace SimpleSoft.Database
         where TEntity : class, IEntity<TId>
         where TId : IEquatable<TId>
     {
-        private readonly EFCoreContextContainer _container;
+        private readonly IQueryable<TEntity> _query;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="container"></param>
-        public EFCoreExistsById(
-            EFCoreContextContainer container
-        )
+        /// <param name="query"></param>
+        public EFCoreExistsById(IQueryable<TEntity> query)
         {
-            _container = container;
+            _query = query;
         }
 
         /// <inheritdoc />
         public async Task<bool> ExistsAsync(TId id, CancellationToken ct) => 
-            await _container.Query<TEntity>().AnyAsync(e => e.Id.Equals(id), ct);
+            await _query.AnyAsync(e => e.Id.Equals(id), ct);
     }
 
     /// <summary>
@@ -43,8 +42,8 @@ namespace SimpleSoft.Database
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="container"></param>
-        public EFCoreExistsById(EFCoreContextContainer container) : base(container)
+        /// <param name="query"></param>
+        public EFCoreExistsById(IQueryable<TEntity> query) : base(query)
         {
 
         }
