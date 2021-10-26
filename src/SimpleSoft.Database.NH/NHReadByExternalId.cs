@@ -1,5 +1,6 @@
 ﻿using NHibernate.Linq;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,22 +15,20 @@ namespace SimpleSoft.Database
         where TEntity : class, IEntity, IHaveExternalId<TId>
         where TId : IEquatable<TId>
     {
-        private readonly NHSessionContainer _container;
+        private readonly IQueryable<TEntity> _query;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="container"></param>
-        public NHReadByExternalId(
-            NHSessionContainer container
-        )
+        /// <param name="query"></param>
+        public NHReadByExternalId(IQueryable<TEntity> query)
         {
-            _container = container;
+            _query = query;
         }
 
         /// <inheritdoc />
         public async Task<TEntity> ReadAsync(TId externalId, CancellationToken ct) =>
-            await _container.Query<TEntity>().SingleOrDefaultAsync(e => e.ExternalId.Equals(externalId), ct);
+            await _query.SingleOrDefaultAsync(e => e.ExternalId.Equals(externalId), ct);
     }
 
     /// <summary>
@@ -43,8 +42,8 @@ namespace SimpleSoft.Database
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="container"></param>
-        public NHReadByExternalId(NHSessionContainer container) : base(container)
+        /// <param name="query"></param>
+        public NHReadByExternalId(IQueryable<TEntity> query) : base(query)
         {
 
         }
