@@ -30,12 +30,12 @@ namespace SimpleSoft.Database
 
             try
             {
-                await transaction.BeginAsync(ct);
+                await transaction.BeginAsync(ct).ConfigureAwait(false);
             }
             catch
             {
 #if NETSTANDARD2_1
-                await transaction.DisposeAsync();
+                await transaction.DisposeAsync().ConfigureAwait(false);
 #else
                 transaction.Dispose();
 #endif
@@ -49,28 +49,28 @@ namespace SimpleSoft.Database
         public async Task<TEntity> CreateAsync<TEntity>(TEntity entity, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            return await Service<ICreate<TEntity>>().CreateAsync(entity, ct);
+            return await Service<ICreate<TEntity>>().CreateAsync(entity, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> CreateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            return await Service<ICreateRange<TEntity>>().CreateAsync(entities, ct);
+            return await Service<ICreateRange<TEntity>>().CreateAsync(entities, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<TEntity> DeleteAsync<TEntity>(TEntity entity, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            return await Service<IDelete<TEntity>>().DeleteAsync(entity, ct);
+            return await Service<IDelete<TEntity>>().DeleteAsync(entity, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> DeleteAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            return await Service<IDeleteRange<TEntity>>().DeleteAsync(entities, ct);
+            return await Service<IDeleteRange<TEntity>>().DeleteAsync(entities, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -78,14 +78,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity, IHaveExternalId<TId>
             where TId : IEquatable<TId>
         {
-            return await Service<IExistsByExternalId<TEntity, TId>>().ExistsAsync(externalId, ct);
+            return await Service<IExistsByExternalId<TEntity, TId>>().ExistsAsync(externalId, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<bool> ExistsByExternalIdAsync<TEntity>(Guid externalId, CancellationToken ct)
             where TEntity : class, IEntity, IHaveExternalId
         {
-            return await Service<IExistsByExternalId<TEntity>>().ExistsAsync(externalId, ct);
+            return await Service<IExistsByExternalId<TEntity>>().ExistsAsync(externalId, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -93,14 +93,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
         {
-            return await Service<IExistsById<TEntity, TId>>().ExistsAsync(id, ct);
+            return await Service<IExistsById<TEntity, TId>>().ExistsAsync(id, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<bool> ExistsByIdAsync<TEntity>(long id, CancellationToken ct)
             where TEntity : class, IEntity<long>
         {
-            return await Service<IExistsById<TEntity>>().ExistsAsync(id, ct);
+            return await Service<IExistsById<TEntity>>().ExistsAsync(id, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -115,14 +115,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity, IHaveExternalId<TId>
             where TId : IEquatable<TId>
         {
-            return await Service<IReadByExternalId<TEntity, TId>>().ReadAsync(externalId, ct);
+            return await Service<IReadByExternalId<TEntity, TId>>().ReadAsync(externalId, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<TEntity> ReadByExternalIdAsync<TEntity>(Guid externalId, CancellationToken ct)
             where TEntity : class, IEntity, IHaveExternalId
         {
-            return await Service<IReadByExternalId<TEntity>>().ReadAsync(externalId, ct);
+            return await Service<IReadByExternalId<TEntity>>().ReadAsync(externalId, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -130,14 +130,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity, IHaveExternalId<TId>
             where TId : IEquatable<TId>
         {
-            return await Service<IReadByExternalIdRange<TEntity, TId>>().ReadAsync(externalIds, ct);
+            return await Service<IReadByExternalIdRange<TEntity, TId>>().ReadAsync(externalIds, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> ReadByExternalIdAsync<TEntity>(IEnumerable<Guid> externalIds, CancellationToken ct)
             where TEntity : class, IEntity, IHaveExternalId
         {
-            return await Service<IReadByExternalIdRange<TEntity>>().ReadAsync(externalIds, ct);
+            return await Service<IReadByExternalIdRange<TEntity>>().ReadAsync(externalIds, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -145,14 +145,14 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
         {
-            return await Service<IReadById<TEntity, TId>>().ReadAsync(id, ct);
+            return await Service<IReadById<TEntity, TId>>().ReadAsync(id, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<TEntity> ReadByIdAsync<TEntity>(long id, CancellationToken ct)
             where TEntity : class, IEntity<long>
         {
-            return await Service<IReadById<TEntity>>().ReadAsync(id, ct);
+            return await Service<IReadById<TEntity>>().ReadAsync(id, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -160,21 +160,21 @@ namespace SimpleSoft.Database
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
         {
-            return await Service<IReadByIdRange<TEntity, TId>>().ReadAsync(ids, ct);
+            return await Service<IReadByIdRange<TEntity, TId>>().ReadAsync(ids, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<TEntity>> ReadByIdAsync<TEntity>(IEnumerable<long> ids, CancellationToken ct)
             where TEntity : class, IEntity<long>
         {
-            return await Service<IReadByIdRange<TEntity>>().ReadAsync(ids, ct);
+            return await Service<IReadByIdRange<TEntity>>().ReadAsync(ids, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task<TEntity> UpdateAsync<TEntity>(TEntity entity, CancellationToken ct)
             where TEntity : class, IEntity
         {
-            return await Service<IUpdate<TEntity>>().UpdateAsync(entity, ct);
+            return await Service<IUpdate<TEntity>>().UpdateAsync(entity, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

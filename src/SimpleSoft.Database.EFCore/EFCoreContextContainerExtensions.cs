@@ -95,7 +95,7 @@ namespace SimpleSoft.Database
 
             return container.ExecuteAsync(async (ctx, p, c) =>
             {
-                await p.executor(ctx, p.param, c);
+                await p.executor(ctx, p.param, c).ConfigureAwait(false);
                 return 0;
             }, innerParam, ct);
         }
@@ -124,7 +124,7 @@ namespace SimpleSoft.Database
 
             return container.ExecuteAsync(async (ctx, exec, c) =>
             {
-                await exec(ctx, c);
+                await exec(ctx, c).ConfigureAwait(false);
                 return 0;
             }, executor, ct);
         }

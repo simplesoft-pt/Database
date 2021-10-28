@@ -47,7 +47,7 @@ namespace SimpleSoft.Database
         /// <param name="ct"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public async Task<TResult> AggregateAsync<TParam, TResult>(
+        public Task<TResult> AggregateAsync<TParam, TResult>(
             Func<ISession, TParam, CancellationToken, Task<TResult>> aggregator,
             TParam param,
             CancellationToken ct
@@ -55,7 +55,7 @@ namespace SimpleSoft.Database
         {
             if (aggregator == null) throw new ArgumentNullException(nameof(aggregator));
 
-            return await aggregator(_session, param, ct);
+            return aggregator(_session, param, ct);
         }
 
         /// <summary>
@@ -80,10 +80,10 @@ namespace SimpleSoft.Database
         {
             if (executor == null) throw new ArgumentNullException(nameof(executor));
 
-            var result = await executor(_session, param, ct);
+            var result = await executor(_session, param, ct).ConfigureAwait(false);
 
             if (_options.AutoFlush)
-                await FlushAsync(ct);
+                await FlushAsync(ct).ConfigureAwait(false);
 
             return result;
         }
@@ -108,9 +108,6 @@ namespace SimpleSoft.Database
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public async Task FlushAsync(CancellationToken ct)
-        {
-            await _session.FlushAsync(ct);
-        }
+        public Task FlushAsync(CancellationToken ct) => _session.FlushAsync(ct);
     }
 }

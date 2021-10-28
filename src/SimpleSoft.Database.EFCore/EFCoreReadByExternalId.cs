@@ -28,7 +28,7 @@ namespace SimpleSoft.Database
 
         /// <inheritdoc />
         public async Task<TEntity> ReadAsync(TId externalId, CancellationToken ct) =>
-            await _query.SingleOrDefaultAsync(e => e.ExternalId.Equals(externalId), ct);
+            await _query.SingleOrDefaultAsync(e => e.ExternalId.Equals(externalId), ct).ConfigureAwait(false);
     }
 
     /// <summary>

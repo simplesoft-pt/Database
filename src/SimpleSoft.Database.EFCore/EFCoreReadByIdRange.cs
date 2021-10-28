@@ -33,7 +33,7 @@ namespace SimpleSoft.Database
         {
             if (ids == null) throw new ArgumentNullException(nameof(ids));
 
-            return await _query.Where(e => ids.Contains(e.Id)).ToListAsync(ct);
+            return await _query.Where(e => ids.Contains(e.Id)).ToListAsync(ct).ConfigureAwait(false);
         }
     }
 

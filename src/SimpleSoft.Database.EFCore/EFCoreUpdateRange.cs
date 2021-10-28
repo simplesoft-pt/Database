@@ -35,7 +35,7 @@ namespace SimpleSoft.Database
             {
                 ctx.Set<TEntity>().UpdateRange(collection);
                 return Task.FromResult(collection);
-            }, entities as IReadOnlyCollection<TEntity> ?? entities.ToList(), ct);
+            }, entities as IReadOnlyCollection<TEntity> ?? entities.ToList(), ct).ConfigureAwait(false);
         }
     }
 }
