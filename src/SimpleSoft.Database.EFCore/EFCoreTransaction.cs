@@ -87,7 +87,7 @@ namespace SimpleSoft.Database
             if (_transaction != null)
                 throw new InvalidOperationException("Transaction already open.");
 
-            _transaction = await _container.BeginTransactionAsync(ct);
+            _transaction = await _container.BeginTransactionAsync(ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -95,10 +95,10 @@ namespace SimpleSoft.Database
         {
             if (_transaction == null) throw new InvalidOperationException("Transaction must be open.");
 
-            await _container.SaveChangesAsync(ct);
+            await _container.SaveChangesAsync(ct).ConfigureAwait(false);
 
 #if NETSTANDARD2_1
-            await _transaction.CommitAsync(ct);
+            await _transaction.CommitAsync(ct).ConfigureAwait(false);
 #else
             _transaction.Commit();
 #endif

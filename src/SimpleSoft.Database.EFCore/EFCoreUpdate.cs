@@ -30,7 +30,7 @@ namespace SimpleSoft.Database
             {
                 var entry = ctx.Set<TEntity>().Update(single);
                 return Task.FromResult(entry.Entity);
-            }, entity, ct);
+            }, entity, ct).ConfigureAwait(false);
         }
     }
 }

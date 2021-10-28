@@ -63,7 +63,7 @@ namespace SimpleSoft.Database
         /// <param name="ct"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public async Task<TResult> AggregateAsync<TParam, TResult>(
+        public Task<TResult> AggregateAsync<TParam, TResult>(
             Func<DbContext, TParam, CancellationToken, Task<TResult>> aggregator,
             TParam param,
             CancellationToken ct
@@ -71,7 +71,7 @@ namespace SimpleSoft.Database
         {
             if (aggregator == null) throw new ArgumentNullException(nameof(aggregator));
 
-            return await aggregator(_context, param, ct);
+            return aggregator(_context, param, ct);
         }
 
         /// <summary>
@@ -97,10 +97,10 @@ namespace SimpleSoft.Database
         {
             if (executor == null) throw new ArgumentNullException(nameof(executor));
 
-            var result = await executor(_context, param, ct);
+            var result = await executor(_context, param, ct).ConfigureAwait(false);
 
             if (_options.AutoSaveChanges)
-                await SaveChangesAsync(ct);
+                await SaveChangesAsync(ct).ConfigureAwait(false);
 
             return result;
         }
@@ -110,19 +110,14 @@ namespace SimpleSoft.Database
         /// </summary>
         /// <param name="ct"></param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the newly created transaction. <see cref="IDbContextTransaction"/></returns>
-        public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct)
-        {
-            return _context.Database.BeginTransactionAsync(ct);
-        }
+        public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct) =>
+            _context.Database.BeginTransactionAsync(ct);
 
         /// <summary>
         /// Asynchronously persists all changes made to this context <see cref="DbContext.SaveChangesAsync(CancellationToken)"/>.
         /// </summary>
         /// <param name="ct"></param>
         /// <returns>A completed task of this operation</returns>
-        public async Task SaveChangesAsync(CancellationToken ct)
-        {
-            await _context.SaveChangesAsync(ct);
-        }
+        public Task SaveChangesAsync(CancellationToken ct) => _context.SaveChangesAsync(ct);
     }
 }

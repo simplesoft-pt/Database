@@ -28,7 +28,7 @@ namespace SimpleSoft.Database
 
         /// <inheritdoc />
         public async Task<bool> ExistsAsync(TId externalId, CancellationToken ct) =>
-            await _query.AnyAsync(e => e.ExternalId.Equals(externalId), ct);
+            await _query.AnyAsync(e => e.ExternalId.Equals(externalId), ct).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -33,7 +33,7 @@ namespace SimpleSoft.Database
         {
             if (externalIds == null) throw new ArgumentNullException(nameof(externalIds));
 
-            return await _query.Where(e => externalIds.Contains(e.ExternalId)).ToListAsync(ct);
+            return await _query.Where(e => externalIds.Contains(e.ExternalId)).ToListAsync(ct).ConfigureAwait(false);
         }
     }
 

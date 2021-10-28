@@ -33,9 +33,9 @@ namespace SimpleSoft.Database
 
             return await _container.ExecuteAsync(async (ctx, collection, c) =>
             {
-                await ctx.Set<TEntity>().AddRangeAsync(collection, c);
+                await ctx.Set<TEntity>().AddRangeAsync(collection, c).ConfigureAwait(false);
                 return collection;
-            }, entities as IReadOnlyCollection<TEntity> ?? entities.ToList(), ct);
+            }, entities as IReadOnlyCollection<TEntity> ?? entities.ToList(), ct).ConfigureAwait(false);
         }
     }
 }

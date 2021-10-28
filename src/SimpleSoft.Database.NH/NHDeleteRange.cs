@@ -34,10 +34,10 @@ namespace SimpleSoft.Database
             return await _container.ExecuteAsync(async (ctx, collection, c) =>
             {
                 foreach (var item in collection)
-                    await ctx.DeleteAsync(item, ct);
+                    await ctx.DeleteAsync(item, ct).ConfigureAwait(false);
 
                 return collection;
-            }, entities as IReadOnlyCollection<TEntity> ?? entities.ToList(), ct);
+            }, entities as IReadOnlyCollection<TEntity> ?? entities.ToList(), ct).ConfigureAwait(false);
         }
     }
 }

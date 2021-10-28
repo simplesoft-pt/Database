@@ -28,9 +28,9 @@ namespace SimpleSoft.Database
         {
             return await _container.ExecuteAsync(async (ctx, single, c) =>
             {
-                await ctx.SaveAsync(entity, ct);
+                await ctx.SaveAsync(entity, ct).ConfigureAwait(false);
                 return entity;
-            }, entity, ct);
+            }, entity, ct).ConfigureAwait(false);
         }
     }
 }
