@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.5" />
-    <PackageReference Include="SimpleSoft.Database.EFCore" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SimpleSoft.Database.EFCore\SimpleSoft.Database.EFCore.csproj" />
   </ItemGroup>
 
 </Project>
