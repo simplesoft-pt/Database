@@ -36,8 +36,8 @@
 
 	<PropertyGroup>
 		<AssemblyVersion>1.0.0</AssemblyVersion>
-		<FileVersion>1.1.0.21166</FileVersion>
-		<VersionPrefix>1.1.1</VersionPrefix>
+		<FileVersion>1.2.0.21347</FileVersion>
+		<VersionPrefix>1.2.0</VersionPrefix>
 	</PropertyGroup>
 
 </Project>
