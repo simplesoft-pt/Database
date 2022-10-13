@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\..\common.props" />
+  <Import Project="..\..\common.props" />
 
-	<PropertyGroup>
-		<Description>Interface contracts for database access.</Description>
-		<TargetFrameworks>netstandard2.1;netstandard2.0;netstandard1.0;net4.5;net4.0</TargetFrameworks>
-	</PropertyGroup>
+  <PropertyGroup>
+    <Description>Interface contracts for database access.</Description>
+    <TargetFrameworks>netstandard2.1;netstandard2.0;netstandard1.0;net4.5;net4.0</TargetFrameworks>
+  </PropertyGroup>
 
 </Project>
