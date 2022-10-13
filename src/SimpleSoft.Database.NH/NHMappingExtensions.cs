@@ -54,7 +54,7 @@ namespace SimpleSoft.Database
             where TId : IEquatable<TId>
         {
             if (isAlternateKey)
-                builder.NaturalId(m => m.Property(m => m.ExternalId));
+                builder.NaturalId(m => m.Property(e => e.ExternalId));
             else
                 builder.Property(e => e.ExternalId, map =>
                 {
