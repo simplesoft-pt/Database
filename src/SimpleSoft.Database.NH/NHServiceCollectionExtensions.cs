@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAddSingleton<IUnitOfWorkFactory, NHUnitOfWorkFactory>();
             services.TryAddTransient<IUnitOfWork, NHUnitOfWork>();
-            services.TryAddScoped<ITransaction, NHTransaction>();
+            services.TryAddTransient<ITransaction, NHTransaction>();
 
             // CREATE
             services.TryAddTransient(typeof(ICreate<>), typeof(NHCreate<>));
