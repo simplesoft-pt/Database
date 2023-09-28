@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -101,6 +102,58 @@ namespace SimpleSoft.Database
 
             if (_options.AutoSaveChanges)
                 await SaveChangesAsync(ct).ConfigureAwait(false);
+
+            if (!_options.NoTracking)
+                return result;
+
+            var entry = _context.Entry(result);
+            if (entry.State != EntityState.Detached)
+            {
+                entry.State = EntityState.Detached;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Enables the mutation of database entities via a <see cref="DbContext"/>.
+        /// </summary>
+        /// <remarks>
+        /// This will call <see cref="EFCoreContextContainer.SaveChangesAsync(CancellationToken)"/> after
+        /// executing the executor function if <see cref="EFCoreContextContainerOptions.AutoSaveChanges"/> is
+        /// set to 'true'.
+        /// </remarks>
+        /// <typeparam name="TParam">The parameter type</typeparam>
+        /// <typeparam name="TResult">The result type</typeparam>
+        /// <param name="executor"></param>
+        /// <param name="param"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public async Task<IReadOnlyCollection<TResult>> ExecuteAsync<TParam, TResult>(
+            Func<DbContext, TParam, CancellationToken, Task<IReadOnlyCollection<TResult>>> executor,
+            TParam param,
+            CancellationToken ct
+        )
+        {
+            if (executor == null) throw new ArgumentNullException(nameof(executor));
+
+            var result = await executor(_context, param, ct).ConfigureAwait(false);
+
+            if (_options.AutoSaveChanges)
+                await SaveChangesAsync(ct).ConfigureAwait(false);
+
+            if (!_options.NoTracking)
+                return result;
+
+            foreach (var item in result)
+            {
+                var entry = _context.Entry(item);
+                if (entry.State != EntityState.Detached)
+                {
+                    entry.State = EntityState.Detached;
+                }
+            }
 
             return result;
         }
