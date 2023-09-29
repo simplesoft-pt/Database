@@ -106,11 +106,7 @@ namespace SimpleSoft.Database
             if (!_options.NoTracking)
                 return result;
 
-            var entry = _context.Entry(result);
-            if (entry.State != EntityState.Detached)
-            {
-                entry.State = EntityState.Detached;
-            }
+            _context.Entry(result).State = EntityState.Detached;
 
             return result;
         }
@@ -148,11 +144,7 @@ namespace SimpleSoft.Database
 
             foreach (var item in result)
             {
-                var entry = _context.Entry(item);
-                if (entry.State != EntityState.Detached)
-                {
-                    entry.State = EntityState.Detached;
-                }
+                _context.Entry(item).State = EntityState.Detached;
             }
 
             return result;
